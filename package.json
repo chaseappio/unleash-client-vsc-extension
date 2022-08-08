@@ -1,0 +1,81 @@
+{
+	"name": "unleash",
+	"description": "Unleash",
+	"version": "1.0.0",
+	"publisher": "UnleashLabs",
+	"private": true,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/vscode-extension-samples"
+	},
+	"engines": {
+		"vscode": "^1.50.0"
+	},
+	"extensionKind": [
+		"ui",
+		"workspace"
+	],
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onView:unleash-search",
+		"onCommand:unleash.search"
+	
+	],
+
+	"main": "./out/extension.js",
+
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+			{
+				"id": "unleash-explorer",
+				"title": "Unleash",
+				"icon": "resources/logo.svg"
+			}
+			]
+		},
+		"views": {
+			"unleash-explorer": [
+			{
+				"type": "webview",				
+				"id": "unleash-search",
+				"icon": "resources/logo.svg",
+				"name":""
+			}
+			]
+		},
+		"commands": [
+			
+			{
+				"command": "unleash.search",
+				"category": "Search",				
+				"title": "Search in Unleash",
+				"icon": "resources/logo.svg"
+			}
+		],
+
+		"keybindings": [
+            {
+                "command": "unleash.search",
+                "key": "ctrl+k",
+                "mac": "cmd+k"
+            }
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint . --ext .ts,.tsx",
+		"watch": "tsc -w -p ./"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.50.0",
+		"@typescript-eslint/eslint-plugin": "^5.30.0",
+		"@typescript-eslint/parser": "^5.30.0",
+		"eslint": "^8.13.0",
+		"typescript": "^4.7.2"
+	}
+}
