@@ -4,7 +4,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const provider = new UnleashViewProvider(context);
 
-	context.globalState.update('session',null);
+	// FOR TESTING no log off: context.globalState.update('session',null);
+
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(UnleashViewProvider.viewType, provider,{webviewOptions:{retainContextWhenHidden:true}}));
 
@@ -63,14 +64,21 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.type) {
+				case 'unleash:vsc:openurl':
+					{
+						vscode.env.openExternal( vscode.Uri.parse( data.url ) );
+						return;
+					}
 				case 'unleash:vsc:signin':
 					{
 						vscode.env.openExternal( vscode.Uri.parse( 'http://localhost:4200/desktop?target=' + vscode.env.uriScheme ) );
+						return;
 					}
 
 				case 'unleash:vsc:init':
 					{
 						webviewView.webview.postMessage({type:'unleash:vsc:session',session:await this._extension.globalState.get('session')})
+						return;
 					}
 			}
 		});
@@ -139,6 +147,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					  borderRadius: 10,
 					  resizable: false,
 					  moveable: false,
+					  externalOpenUrl:true,
 					  style: 'window',					  
 					  theme: 'dark',					  
 					  expandMode: 'external',
@@ -158,6 +167,9 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					},
 				  });
 		  				 
+				embed.onOpenUrl = u =>{
+					vscode.postMessage({type:'unleash:vsc:openurl',url:u});
+				}
 				let ready = false;
 
 				window.onfocus = ()=>{
