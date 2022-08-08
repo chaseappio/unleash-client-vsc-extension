@@ -14,7 +14,7 @@
 	  },
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/unleash-tech/"
+		"url": "https://github.com/chaseappio/unleash-client-vsc-extension"
 	},
 	"engines": {
 		"vscode": "^1.50.0"
