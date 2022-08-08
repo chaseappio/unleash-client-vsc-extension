@@ -1,13 +1,20 @@
 {
 	"name": "unleash",
-	"description": "Unleash",
-	"version": "1.0.0",
+	"displayName": "Unleash",
+	"description": "Unleash helps knowledge workers find all the organizational data they need to get the job done. With our cutting edge technology, receive relevant ranked results, from across your company’s apps, liberating you from the manual grunt work of sifting through various SaaS apps, internal knowledge bases, folders and email chains to find what you are looking for, saving you time and keeping you in the zone",
+	"version": "1.0.3",
 	"publisher": "UnleashLabs",
 	"private": true,
+	"icon":"resources/logo.png",
+	"keywords": ["unleash","search","aws","github","jira","notion","confluence","atlassian","bitbucket","aws","amazon","gcp","google","asana","monday","zendesk","salesforce"],
 	"license": "MIT",
+	"galleryBanner": {
+		"color": "#BE8DF6",
+		"theme": "dark"
+	  },
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/unleash-tech/"
 	},
 	"engines": {
 		"vscode": "^1.50.0"
