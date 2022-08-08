@@ -9,8 +9,8 @@
 	"keywords": ["unleash","search","azure","azure devops", "google drive", "gdrive", "gsuite", "aws","github","jira","notion","confluence","atlassian","bitbucket","aws","amazon","gcp","google","asana","monday","zendesk","salesforce"],
 	"license": "MIT",
 	"galleryBanner": {
-		"color": "#BE8DF6",
-		"theme": "dark"
+		"color": "#ffffff",
+		"theme": "light"
 	  },
 	"repository": {
 		"type": "git",
