@@ -6,7 +6,7 @@
 	"publisher": "UnleashLabs",
 	"private": true,
 	"icon":"resources/logo.png",
-	"keywords": ["unleash","search","azure","azure devops", "aws","github","jira","notion","confluence","atlassian","bitbucket","aws","amazon","gcp","google","asana","monday","zendesk","salesforce"],
+	"keywords": ["unleash","search","azure","azure devops", "google drive", "gdrive", "gsuite", "aws","github","jira","notion","confluence","atlassian","bitbucket","aws","amazon","gcp","google","asana","monday","zendesk","salesforce"],
 	"license": "MIT",
 	"galleryBanner": {
 		"color": "#BE8DF6",
