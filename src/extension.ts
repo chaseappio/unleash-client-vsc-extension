@@ -4,7 +4,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const provider = new UnleashViewProvider(context);
 
-	// FOR TESTING no log off: context.globalState.update('session',null);
+	// FOR TESTING since we have log off:
+	// context.globalState.update('session',null);
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(UnleashViewProvider.viewType, provider,{webviewOptions:{retainContextWhenHidden:true}}));
@@ -60,8 +61,6 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 			]
 		};
 
-		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
 		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.type) {
 				case 'unleash:vsc:openurl':
@@ -71,7 +70,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					}
 				case 'unleash:vsc:signin':
 					{
-						vscode.env.openExternal( vscode.Uri.parse( 'http://localhost:4200/desktop?target=' + vscode.env.uriScheme ) );
+						vscode.env.openExternal( vscode.Uri.parse( 'https://app.unleash.team/desktop?target=' + vscode.env.uriScheme ) );
 						return;
 					}
 
@@ -82,6 +81,10 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					}
 			}
 		});
+		
+		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+
+	
 	}
 
 
@@ -115,10 +118,8 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					}
 				}
 
-				vscode.postMessage({type:'unleash:vsc:init'});
-
 				const sc = document.createElement('script');
-				sc.src = 'http://localhost:4200/embed-sdk.js';
+				sc.src = 'https://app.unleash.team/embed-sdk.js';
 				
 				window.unleash = window.unleash || {
 				  ready: function (c) {
@@ -132,7 +133,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 				unleash.ready(async () => {
 				  const embed = await unleash.embed.create({
 					id: 'extension:vsode',
-					endpoint: 'http://localhost:4200',
+					endpoint: 'https://app.unleash.team',
 					popup: {
 					  hideOnClickOut: false,
 		  
@@ -193,6 +194,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 				  }
 
 				  prom.then(handler);
+				  vscode.postMessage({type:'unleash:vsc:init'});
 
 				});
 				</script>
