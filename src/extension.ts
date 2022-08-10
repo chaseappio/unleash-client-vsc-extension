@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+const ENDPOINT = 'https://app.unleash.team';
+
 export function activate(context: vscode.ExtensionContext) {
 
 	const provider = new UnleashViewProvider(context);
