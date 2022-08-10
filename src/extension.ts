@@ -7,7 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const provider = new UnleashViewProvider(context);
 
 	// FOR TESTING since we have log off:
-	 context.globalState.update('session',null);
+	// context.globalState.update('session',null);
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(UnleashViewProvider.viewType, provider,{webviewOptions:{retainContextWhenHidden:true}}));

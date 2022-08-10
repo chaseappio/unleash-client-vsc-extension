@@ -67,7 +67,7 @@
 		"keybindings": [
             {
                 "command": "unleash.search",
-                "key": "ctrl+k",
+                "key": "shift+space",
                 "mac": "cmd+k"
             }
 		]
