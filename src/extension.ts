@@ -5,7 +5,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const provider = new UnleashViewProvider(context);
 
 	// FOR TESTING since we have log off:
-	// context.globalState.update('session',null);
+	 context.globalState.update('session',null);
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(UnleashViewProvider.viewType, provider,{webviewOptions:{retainContextWhenHidden:true}}));
@@ -70,7 +70,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					}
 				case 'unleash:vsc:signin':
 					{
-						vscode.env.openExternal( vscode.Uri.parse( 'https://app.unleash.team/desktop?target=' + vscode.env.uriScheme ) );
+						vscode.env.openExternal( vscode.Uri.parse( ENDPOINT+'/desktop?target=' + vscode.env.uriScheme ) );
 						return;
 					}
 
@@ -119,7 +119,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 				}
 
 				const sc = document.createElement('script');
-				sc.src = 'https://app.unleash.team/embed-sdk.js';
+				sc.src = '${ENDPOINT}/embed-sdk.js';
 				
 				window.unleash = window.unleash || {
 				  ready: function (c) {
@@ -133,7 +133,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 				unleash.ready(async () => {
 				  const embed = await unleash.embed.create({
 					id: 'extension:vsode',
-					endpoint: 'https://app.unleash.team',
+					endpoint: '${ENDPOINT}',
 					popup: {
 					  hideOnClickOut: false,
 		  
@@ -168,7 +168,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					},
 				  });
 		  				 
-				embed.onOpenUrl = u =>{
+				embed.onOpenUrl = u =>{					
 					vscode.postMessage({type:'unleash:vsc:openurl',url:u});
 				}
 				let ready = false;
