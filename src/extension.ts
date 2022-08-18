@@ -132,6 +132,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 				const psc = document.getElementsByTagName('script')[0];
 				psc.parentNode.insertBefore(sc, psc);
 		  
+				const isDarkMode = document.body.className.includes("vscode-dark");
 				unleash.ready(async () => {
 				  const embed = await unleash.embed.create({
 					id: 'extension:vsode',
@@ -152,7 +153,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					  moveable: false,
 					  externalOpenUrl:true,
 					  style: 'window',					  
-					  theme: 'dark',					  
+					  theme: isDarkMode ? 'dark' : 'light',					  
 					  expandMode: 'external',
 					},
 					inline: {
