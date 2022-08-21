@@ -7,6 +7,7 @@ const ENDPOINT = 'https://app.unleash.team';
 
 export function activate(context: vscode.ExtensionContext) {
 
+
 	const provider = new UnleashViewProvider(context);
 
 	// FOR TESTING since we have log off:
@@ -14,8 +15,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(UnleashViewProvider.viewType, provider,{webviewOptions:{retainContextWhenHidden:true}}));
+
 	
-	context.subscriptions.push(vscode.window.registerUriHandler(new UnleashUriHandler(context)));	
+		context.subscriptions.push(vscode.window.registerUriHandler(new UnleashUriHandler(context)));	
+
+
 	
 	context.subscriptions.push(vscode.commands.registerCommand('unleash.search',c=>{
 		vscode.commands.executeCommand("unleash-search.focus")
@@ -70,6 +74,8 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					{						
 						if ( data.downloadUrl ) 
 						{
+
+						//	data.downloadUrl=data.downloadUrl.replace('http://localhost:4200/api','https://api.app.london.unleash.team')
 							
 							vscode.window.withProgress({location:vscode.ProgressLocation.Notification,cancellable:true,title:'Downloading file...'},async p=>{
 								try  {
@@ -111,6 +117,10 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 								{
 									const op = await vscode.workspace.openTextDocument(lfilename);									
 									vscode.window.showTextDocument(op);
+								}
+								else 
+								{
+									vscode.env.openExternal(vscode.Uri.parse('file://'+lfilename));
 								}
 							}
 							catch(e)
