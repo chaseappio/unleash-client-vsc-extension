@@ -2,7 +2,7 @@
 	"name": "unleash",
 	"displayName": "Unleash",
 	"description": "Unleash helps knowledge workers find all the organizational data they need to get the job done. With our cutting edge technology, receive relevant ranked results, from across your company’s apps, liberating you from the manual grunt work of sifting through various SaaS apps, internal knowledge bases, folders and email chains to find what you are looking for, saving you time and keeping you in the zone",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"publisher": "UnleashLabs",
 	"private": true,
 	"icon": "resources/logo.png",
