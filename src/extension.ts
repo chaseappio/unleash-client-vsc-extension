@@ -1,3 +1,6 @@
+import { randomUUID } from 'crypto';
+import { isText } from 'istextorbinary';
+import fetch from 'node-fetch'
 import * as vscode from 'vscode';
 
 const ENDPOINT = 'https://app.unleash.team';
@@ -11,11 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(UnleashViewProvider.viewType, provider,{webviewOptions:{retainContextWhenHidden:true}}));
-
 	
-		context.subscriptions.push(vscode.window.registerUriHandler(new UnleashUriHandler(context)));	
-
-
+	context.subscriptions.push(vscode.window.registerUriHandler(new UnleashUriHandler(context)));	
 	
 	context.subscriptions.push(vscode.commands.registerCommand('unleash.search',c=>{
 		vscode.commands.executeCommand("unleash-search.focus")
@@ -65,9 +65,67 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.type) {
+				
 				case 'unleash:vsc:openurl':
-					{
-						vscode.env.openExternal( vscode.Uri.parse( data.url ) );
+					{						
+						if ( data.downloadUrl ) 
+						{
+							
+							vscode.window.withProgress({location:vscode.ProgressLocation.Notification,cancellable:true,title:'Downloading file...'},async p=>{
+								try  {
+						
+								let resp = await fetch(data.downloadUrl);
+								if ( !resp.ok)
+								{
+									vscode.window.showErrorMessage('Failed to download file: ' + resp.status);
+									return;
+								}						
+								
+								let ext=  new URL(data.url);
+								let fname = ext.pathname.split('/').reverse()[0];
+								const buf = await resp.buffer();						
+								const hash = require('crypto').createHash('sha256').update(buf).digest('hex');
+								const ldir = require('os').tmpdir()+'/'+hash+'/';
+								
+								await require('fs').promises.mkdir(ldir,{recursive:true});
+		
+								const disposition = resp.headers.get('content-disposition');
+								if ( disposition)
+								{
+									var filename = "";
+									if (disposition && disposition.indexOf('attachment') !== -1) {
+										var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+										var matches = filenameRegex.exec(disposition);
+										if (matches != null && matches[1]) { 
+										  filename = matches[1].replace(/['"]/g, '');
+										}
+									}
+									if ( filename)
+										fname=filename;
+								}
+		
+								const lfilename = ldir+'/'+fname;						
+								await require('fs').promises.writeFile(lfilename,buf);
+		
+								if ( isText(lfilename))
+								{
+									const op = await vscode.workspace.openTextDocument(lfilename);									
+									vscode.window.showTextDocument(op);
+								}
+							}
+							catch(e)
+							{
+								vscode.window.showErrorMessage('Failed to download file: ' + e);								
+							}
+							});
+
+							return;							
+						}
+						else 
+						{
+							vscode.env.openExternal( vscode.Uri.parse( data.url ) );
+						}
+
 						return;
 					}
 				case 'unleash:vsc:signin':
@@ -135,7 +193,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 				const isDarkMode = document.body.className.includes("vscode-dark");
 				unleash.ready(async () => {
 				  const embed = await unleash.embed.create({
-					id: 'extension:vsode',
+					id: 'extension:vscode',
 					endpoint: '${ENDPOINT}',
 					popup: {
 					  hideOnClickOut: false,
@@ -152,6 +210,7 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					  resizable: false,
 					  moveable: false,
 					  externalOpenUrl:true,
+					  externalDownload:false,
 					  style: 'window',					  
 					  theme: isDarkMode ? 'dark' : 'light',					  
 					  expandMode: 'external',
@@ -171,9 +230,11 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 					},
 				  });
 		  				 
-				embed.onOpenUrl = u =>{					
-					vscode.postMessage({type:'unleash:vsc:openurl',url:u});
+				embed.onOpenUrl = (u,du) =>{					
+					vscode.postMessage({type:'unleash:vsc:openurl',url:u,downloadUrl:du});
+					return true;
 				}
+		
 				let ready = false;
 
 				window.onfocus = ()=>{

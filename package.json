@@ -5,13 +5,36 @@
 	"version": "1.0.6",
 	"publisher": "UnleashLabs",
 	"private": true,
-	"icon":"resources/logo.png",
-	"keywords": ["unleash","search","azure","azure devops", "google drive", "gdrive", "gsuite", "aws","github","jira","notion","confluence","atlassian","bitbucket","aws","amazon","gcp","google","asana","monday","zendesk","salesforce"],
+	"icon": "resources/logo.png",
+	"keywords": [
+		"unleash",
+		"search",
+		"azure",
+		"azure devops",
+		"google drive",
+		"gdrive",
+		"gsuite",
+		"aws",
+		"github",
+		"jira",
+		"notion",
+		"confluence",
+		"atlassian",
+		"bitbucket",
+		"aws",
+		"amazon",
+		"gcp",
+		"google",
+		"asana",
+		"monday",
+		"zendesk",
+		"salesforce"
+	],
 	"license": "MIT",
 	"galleryBanner": {
 		"color": "#ffffff",
 		"theme": "light"
-	  },
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/chaseappio/unleash-client-vsc-extension"
@@ -29,62 +52,63 @@
 	"activationEvents": [
 		"onView:unleash-search",
 		"onCommand:unleash.search"
-	
 	],
-
 	"main": "./dist/extension.js",
-
 	"contributes": {
 		"viewsContainers": {
 			"activitybar": [
-			{
-				"id": "unleash-explorer",
-				"title": "Unleash",
-				"icon": "resources/logo.svg"
-			}
+				{
+					"id": "unleash-explorer",
+					"title": "Unleash",
+					"icon": "resources/logo.svg"
+				}
 			]
 		},
 		"views": {
 			"unleash-explorer": [
-			{
-				"type": "webview",				
-				"id": "unleash-search",
-				"icon": "resources/logo.svg",
-				"name":""
-			}
+				{
+					"type": "webview",
+					"id": "unleash-search",
+					"icon": "resources/logo.svg",
+					"name": ""
+				}
 			]
 		},
 		"commands": [
-			
 			{
 				"command": "unleash.search",
-				"category": "Search",				
+				"category": "Search",
 				"title": "Search in Unleash",
 				"icon": "resources/logo.svg"
 			}
 		],
-
 		"keybindings": [
-            {
-                "command": "unleash.search",
-                "key": "shift+space",
-                "mac": "cmd+k"
-            }
+			{
+				"command": "unleash.search",
+				"key": "shift+space",
+				"mac": "cmd+k"
+			}
 		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"package": "vsce package",
-		
 		"lint": "eslint . --ext .ts,.tsx",
 		"watch": "tsc -w -p ./"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.50.0",
+		"@types/node": "^18.7.8",
+		"@types/node-fetch": "^2.6.2",
+		"@types/vscode": "^1.70.0",
 		"@typescript-eslint/eslint-plugin": "^5.30.0",
 		"@typescript-eslint/parser": "^5.30.0",
 		"eslint": "^8.13.0",
 		"typescript": "^4.7.2"
+	},
+	"dependencies": {
+		"@microsoft/vscode-file-downloader-api": "^1.0.1",
+		"istextorbinary": "^6.0.0",
+		"node-fetch": "^2.6.7"
 	}
 }
