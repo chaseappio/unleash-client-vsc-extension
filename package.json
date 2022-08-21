@@ -100,7 +100,6 @@
 	"devDependencies": {
 		"@types/node": "^18.7.8",
 		"@types/node-fetch": "^2.6.2",
-		"@types/vscode": "^1.70.0",
 		"@typescript-eslint/eslint-plugin": "^5.30.0",
 		"@typescript-eslint/parser": "^5.30.0",
 		"eslint": "^8.13.0",
@@ -108,6 +107,7 @@
 	},
 	"dependencies": {
 		"@microsoft/vscode-file-downloader-api": "^1.0.1",
+		"@types/vscode": "1.50",
 		"istextorbinary": "^6.0.0",
 		"node-fetch": "^2.6.7"
 	}
