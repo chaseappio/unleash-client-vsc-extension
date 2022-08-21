@@ -169,10 +169,23 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 			</head>
 			<body>
 
-				<div id='signin' style='display:none'>
-					<div style='margin-bottom:10px;text-align:center'>Please sign in to your Unleash Account</div>
-				 	<button onclick='vscode.postMessage({type:"unleash:vsc:signin"})'> Sign In </button>
+			<div id="signin" style="display:none; flex-direction: column; align-items: center; margin-top: 48px;">
+				<div style="margin-bottom: 24px; font-size: 14px; text-align: center">
+					Please sign in to your Unleash Account
 				</div>
+				<button
+				onclick='vscode.postMessage({type:"unleash:vsc:signin"})'
+				style="
+					height: 32px;
+					background-color: #be8df6;
+					border: none;
+					border-radius: 4px;
+					max-width: 200px;
+					width: 100%;
+					color: white;">
+				Sign In
+				</button>
+			</div>
 
 				<script>				
 				
