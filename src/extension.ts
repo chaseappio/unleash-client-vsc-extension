@@ -75,7 +75,6 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 						if ( data.downloadUrl ) 
 						{
 
-						//	data.downloadUrl=data.downloadUrl.replace('http://localhost:4200/api','https://api.app.london.unleash.team')
 							
 							vscode.window.withProgress({location:vscode.ProgressLocation.Notification,cancellable:true,title:'Downloading file...'},async p=>{
 								try  {
@@ -106,6 +105,9 @@ class UnleashViewProvider implements vscode.WebviewViewProvider {
 										  filename = matches[1].replace(/['"]/g, '');
 										}
 									}
+									if (filename?.startsWith('UTF-8'))
+										filename=filename.substring(5);
+
 									if ( filename)
 										fname=filename;
 								}
